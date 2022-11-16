@@ -53,6 +53,12 @@ export function Code({data}) {
       setIsSync(isSync)
    }
 
+   const saveFromEditor = (file) => {
+      setFiles((prev)=> {
+         return {...prev, [file.name]: file.content}
+      })
+   }
+
    const saveChanges = () => {
       setChose('save')
       setShowSaveDialog(false)
@@ -65,7 +71,7 @@ export function Code({data}) {
    return (
      <div className={styles['container']}>
         <FileMenu filenames={filenames} selectedFile={selectedFile} onSelect={onFileMenuSelect}/>
-        <MyEditor file={{name: selectedFile, content:files[selectedFile]}} isSync={isSync} updateSync={updateSync} onChange={onEditorChange}/>
+        <MyEditor file={{name: selectedFile, content:files[selectedFile]}} isSync={isSync} updateSync={updateSync} onChange={onEditorChange} onSave={saveFromEditor}/>
         <Modal open={showSaveDialog} okText='Да' cancelText='Нет' onOk={saveChanges} onCancel={discardChanges}>Сохранить изменения в <strong>{selectedFile}</strong>?</Modal>
      </div>
    )

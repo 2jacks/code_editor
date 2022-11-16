@@ -5,7 +5,7 @@ import {Button} from "antd";
 
 import Editor from '@monaco-editor/react'
 
-export function MyEditor({file, isSync, updateSync, onChange}) {
+export function MyEditor({file, isSync, updateSync, onChange, onSave}) {
 
    const language = (() => {
       let extension = file.name.split('.')[1]
@@ -33,12 +33,17 @@ export function MyEditor({file, isSync, updateSync, onChange}) {
       onChange(val)
    }
 
+   const onSaveDemand = () => {
+      onSave({name: file.name, content: value})
+      updateSync(true)
+   }
+
 
    return (
      <div className={styles['container']}>
         <div className={styles['header']}>
            <h4>{file.name}</h4>
-           {!isSync ? <Button>Сохранить</Button> : null}
+           {!isSync ? <Button onClick={onSaveDemand}>Сохранить</Button> : null}
         </div>
         <Editor
           height={700}
